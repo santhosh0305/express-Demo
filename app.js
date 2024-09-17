@@ -51,11 +51,15 @@ test.post('/api/courses', (req, res) => {
 })
 
 test.put('/api/courses/:id', (req, res) => {
-    const course = courses.find(c => c.id === parseInt(req.params.id));
-    if(!course) return res.status(404).send('Invalid id provided!');
+   const course  =  courses.find(c => c.id === parseInt(req.params.id))
+   if(!course) return res.status(404).send('The course with the given id is not found!')
+   
+    if(!req.body.name || req.body.name.length < 3){
+        return res.status(404).send('The name is required and should be atleast 3 characters long!!');
+    }
 
-    course.name = req.body.name
-    res.send(course)
+    course.name = req.body.name;
+    res.send(course);
 })
 
 test.delete('/api/courses/:id', (req, res) => {
