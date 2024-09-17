@@ -4,15 +4,17 @@ const logger = require('./logger');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
-console.log(`app: ${test.get('env')}`);
-
 test.use(express.json());
 test.use(express.urlencoded({extended: true}));
 test.use(express.static('public'));
 test.use(helmet());
 test.use(logger);
 test.use(morgan('tiny'));
+
+if (test.get('env') === 'development'){
+    test.use(morgan('tiny'));
+    console.log('Morgan enabled...')
+}
 
 const courses = [
     {id: 1, name: 'course1'},
